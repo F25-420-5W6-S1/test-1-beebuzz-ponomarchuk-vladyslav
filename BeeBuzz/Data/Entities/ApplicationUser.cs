@@ -6,5 +6,6 @@ namespace BeeBuzz.Data.Entities
     public class ApplicationUser : IdentityUser<int>
     {
         public List<Beehive> ManagedBeehives { get; set; }
+        public BeeBuzzOrganization Organization { get; set; }
     }
 }

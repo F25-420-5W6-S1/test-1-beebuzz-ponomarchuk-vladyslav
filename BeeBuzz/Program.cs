@@ -22,7 +22,23 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options => opti
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddTransient<BeeBuzzSeeder>();
+
 var app = builder.Build();
+
+RunSeeding(app);
+
+static async void RunSeeding(IHost host)
+{
+    var scopeFactory = host.Services.GetService<IServiceScopeFactory>();
+
+    using (var scope = scopeFactory.CreateScope())
+    {
+        var seeder = scope.ServiceProvider.GetService<BeeBuzzSeeder>();
+
+        await seeder.Seed();
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

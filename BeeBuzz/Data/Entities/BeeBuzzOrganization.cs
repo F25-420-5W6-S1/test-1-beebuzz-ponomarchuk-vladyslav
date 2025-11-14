@@ -2,7 +2,7 @@
 
 namespace BeeBuzz.Data.Entities
 {
-    public class Organization
+    public class BeeBuzzOrganization
     {
         [Key]
         [Required]

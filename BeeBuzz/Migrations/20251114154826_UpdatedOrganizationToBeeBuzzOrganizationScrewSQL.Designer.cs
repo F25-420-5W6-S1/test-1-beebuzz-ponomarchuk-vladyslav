@@ -4,6 +4,7 @@ using BeeBuzz.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeeBuzz.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251114154826_UpdatedOrganizationToBeeBuzzOrganizationScrewSQL")]
+    partial class UpdatedOrganizationToBeeBuzzOrganizationScrewSQL
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,6 +35,9 @@ namespace BeeBuzz.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("BeeBuzzOrganizationOrganizationId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -58,9 +64,6 @@ namespace BeeBuzz.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("OrganizationId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
@@ -82,6 +85,8 @@ namespace BeeBuzz.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BeeBuzzOrganizationOrganizationId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -89,8 +94,6 @@ namespace BeeBuzz.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("OrganizationId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -102,7 +105,7 @@ namespace BeeBuzz.Migrations
 
                     b.HasKey("OrganizationId");
 
-                    b.ToTable("BeeHiveOrganizations");
+                    b.ToTable("Organizations");
                 });
 
             modelBuilder.Entity("BeeBuzz.Data.Entities.Beehive", b =>
@@ -268,11 +271,9 @@ namespace BeeBuzz.Migrations
 
             modelBuilder.Entity("BeeBuzz.Data.Entities.ApplicationUser", b =>
                 {
-                    b.HasOne("BeeBuzz.Data.Entities.BeeBuzzOrganization", "Organization")
+                    b.HasOne("BeeBuzz.Data.Entities.BeeBuzzOrganization", null)
                         .WithMany("Members")
-                        .HasForeignKey("OrganizationId");
-
-                    b.Navigation("Organization");
+                        .HasForeignKey("BeeBuzzOrganizationOrganizationId");
                 });
 
             modelBuilder.Entity("BeeBuzz.Data.Entities.Beehive", b =>

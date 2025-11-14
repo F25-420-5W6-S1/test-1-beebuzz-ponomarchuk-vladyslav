@@ -16,5 +16,8 @@ namespace BeeBuzz.Data
         {
             base.OnModelCreating(modelBuilder);
         }
+
+        public DbSet<Beehive> Beehives { get; set; }
+        public DbSet<BeeBuzzOrganization> BeeHiveOrganizations { get; set; }
     }
 }
