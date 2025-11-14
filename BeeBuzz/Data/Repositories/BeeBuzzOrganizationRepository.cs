@@ -18,5 +18,29 @@ namespace BeeBuzz.Data.Repositories
             }
             return org.Members;
         }
+
+        public List<Beehive> GetAllBeehivesForOrganization(string orgId)
+        {
+            var org = _context.BeeHiveOrganizations.Find(orgId);
+            if (org == null)
+            {
+                return null;
+            }
+
+            List<Beehive> hives = new List<Beehive>();
+
+            foreach (ApplicationUser user in org.Members) {
+                var beehiveList = user.ManagedBeehives;
+                foreach (Beehive hive in beehiveList)
+                {
+                    if (!hives.Contains(hive))
+                    {
+                        hives.Add(hive);
+                    }
+                }
+            }
+
+            return hives;
+        }
     }
 }
