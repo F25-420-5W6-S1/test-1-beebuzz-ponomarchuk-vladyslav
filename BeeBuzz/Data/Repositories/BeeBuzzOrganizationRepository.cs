@@ -9,9 +9,14 @@ namespace BeeBuzz.Data.Repositories
 
         }
 
-        public Task<List<ApplicationUser>> GetAllUsersForOrganization()
+        public List<ApplicationUser> GetAllUsersForOrganization(string orgId)
         {
-            return null;
+            var org = _context.BeeHiveOrganizations.Find(orgId);
+            if (org == null)
+            {
+                return null;
+            }
+            return org.Members;
         }
     }
 }
